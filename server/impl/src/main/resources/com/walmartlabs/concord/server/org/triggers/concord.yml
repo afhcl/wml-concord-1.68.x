@@ -1,0 +1,28 @@
+configuration:
+  runtime: "concord-v2"
+
+flows:
+  onChange:
+  - log: "Refreshing repository... ${event}"
+  - task: repositoryRefresh
+    in:
+      repositoryInfo: ${event.repositoryInfo}
+
+triggers:
+  - concord:
+      version: 2
+      conditions:
+        event: "repository.*"
+      entryPoint: "onChange"
+
+  - github:
+      version: 2
+      entryPoint: "onChange"
+      conditions:
+        type: "push"
+        githubOrg: ".*"
+        githubRepo: ".*"
+        branch: ".*"
+        repositoryInfo:
+          # trigger only for registered repos (i.e. added to Concord)
+          - repository: ".*"

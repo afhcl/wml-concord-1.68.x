@@ -1,0 +1,21 @@
+flows:
+  default:
+  - log: "bye!"
+
+forms:
+  myForm:
+  - myName: {type: "string"}
+
+#triggers:
+#  - oneops:
+#      stuff: "yep"
+#      entryPoint: "default"
+
+publicFlows:
+  - default
+
+configuration:
+  arguments:
+    abc: "xyz"
+    nested:
+      value: "123"

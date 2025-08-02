@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.walmartlabs.concord.server</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.68.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>concord-server</artifactId>
+    <packaging>takari-jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.walmartlabs.concord.server</groupId>
+            <artifactId>concord-server-impl</artifactId>
+        </dependency>
+
+        <!-- plugins -->
+        <dependency>
+            <groupId>com.walmartlabs.concord.server.plugins.ansible</groupId>
+            <artifactId>concord-ansible-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.walmartlabs.concord.server.plugins</groupId>
+            <artifactId>concord-oneops-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.walmartlabs.concord.server.plugins.noderoster</groupId>
+            <artifactId>concord-noderoster-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.walmartlabs.concord.server.plugins</groupId>
+            <artifactId>iam-sso</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.walmartlabs.concord.server.plugins</groupId>
+            <artifactId>oidc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${project.basedir}/src/main/filtered-resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>io.takari.maven.plugins</groupId>
+                <artifactId>takari-lifecycle-plugin</artifactId>
+                <configuration>
+                    <proc>proc</proc>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>dist</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/dist.xml</descriptor>
+                            </descriptors>
+                            <tarLongFileMode>posix</tarLongFileMode>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
